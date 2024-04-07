@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
 import {Check, X} from 'lucide-react'
 import {
     Card,
