@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setThisList } from '@/app/ListSlice';
 import axios from 'axios'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {Check, X} from 'lucide-react'
@@ -12,7 +14,9 @@ import { Button } from './ui/button';
 
 export default function DisplayAll() {
 
-    let [list, setList] = useState([]);
+    // let [list, setList] = useState([]);
+    let list = useSelector(state => state.list)
+    const dispatch = useDispatch()
     let [curPage, setCurPage] = useState(1);
     let [allPages, setAllPages] = useState(0);
     let [retrieveNum, setRetrieveNum] = useState(true)
@@ -20,7 +24,10 @@ export default function DisplayAll() {
     async function retrieveList (off){
         let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
         if (response.data.stat){
-            setList(response.data.msg)
+            // setList(response.data.msg)
+            dispatch(setThisList({
+                newList : response.data.msg
+            }))
             if (retrieveNum){
                 setAllPages(Math.ceil(response.data.num/20))
                 setRetrieveNum(false)
