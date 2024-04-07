@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setThisList } from '@/app/ListSlice';
+import { setThisList, setCurrentPage, nextCurrentPage, prevCurrentPage, setTotalPages, setRetrieveNumber } from '@/app/ListSlice';
 import axios from 'axios'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import {Check, X} from 'lucide-react'
+import {Check, X, CircleUserRound} from 'lucide-react'
 import {
     Card,
     CardDescription,
@@ -17,9 +17,12 @@ export default function DisplayAll() {
     // let [list, setList] = useState([]);
     let list = useSelector(state => state.list)
     const dispatch = useDispatch()
-    let [curPage, setCurPage] = useState(1);
-    let [allPages, setAllPages] = useState(0);
-    let [retrieveNum, setRetrieveNum] = useState(true)
+    // let [curPage, setCurPage] = useState(1);
+    const curPage = useSelector(state => state.currentPage)
+    // let [allPages, setAllPages] = useState(0);
+    const allPages = useSelector(state => state.totalPages)
+    // let [retrieveNum, setRetrieveNum] = useState(true)
+    const retrieveNum = useSelector(state => state.retrieveNumber)
 
     async function retrieveList (off){
         let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
@@ -29,8 +32,13 @@ export default function DisplayAll() {
                 newList : response.data.msg
             }))
             if (retrieveNum){
-                setAllPages(Math.ceil(response.data.num/20))
-                setRetrieveNum(false)
+                dispatch(setTotalPages({
+                    newTotal : Math.ceil(response.data.num/20)
+                }))
+                // setRetrieveNum(false)
+                dispatch(setRetrieveNumber({
+                    newState : false
+                }))
             }
         } else {
             alert(`Error Retrieving List of Users \n${response.data.msg}`)
@@ -43,7 +51,9 @@ export default function DisplayAll() {
     }, [curPage])
 
     const handleCurPageChange = (event) => {
-        setCurPage(Number(event.target.id));
+        dispatch(setCurrentPage({
+            newPage: Number(event.target.id)
+        }));
         window.scroll(0,0)
     }
 
@@ -52,7 +62,7 @@ export default function DisplayAll() {
             <CardHeader className='grid grid-cols-8 space-x-3 items-center'>
                 <Avatar className='inline-block size-8'>
                     <AvatarImage src={item.avatar} />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback><CircleUserRound /></AvatarFallback>
                 </Avatar>
                 <div className='col-span-7 text-sm'>
                     {`${item.first_name} ${item.last_name}`}
@@ -70,7 +80,7 @@ export default function DisplayAll() {
     const renderPageBtns = [...Array(allPages)].map((item, index)=>{
         if (index == 0)
             return <button key={`AllPage${index}${Math.random()}`}
-            className='p-3' id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
+            className={curPage - 1 == index? `bg-muted px-3 py-1`:null} id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
         if (index >= curPage-5 && index < curPage+5){
             return <button key={`AllPage${index}${Math.random()}`}
             className={curPage - 1 == index? `bg-muted px-3 py-1`:null} id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
@@ -107,13 +117,15 @@ export default function DisplayAll() {
 
     const handleNextPage = (event)=>{
         event.preventDefault()
-        setCurPage((prev) => prev + 1); 
+        // setCurPage((prev) => prev + 1); 
+        dispatch(nextCurrentPage())
         window.scroll(0,0)
     }
     
     const handlePrevPage = (event)=>{
         event.preventDefault()
-        setCurPage((prev) => prev - 1); 
+        // setCurPage((prev) => prev - 1); 
+        dispatch(prevCurrentPage())
         window.scroll(0,0)
     }
 
