@@ -14,19 +14,27 @@ import { Button } from './ui/button';
 export default function DisplayAll() {
 
     let [list, setList] = useState([]);
+    let [curPage, setCurPage] = useState(1);
+    let [allPages, setAllPages] = useState(0);
+    let [retrieveNum, setRetrieveNum] = useState(true)
 
-    async function retrieveList (){
-        let response = await axios.get('http://localhost:5000/api/users?offset=0');
+    async function retrieveList (off){
+        let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
         if (response.data.stat){
             setList(response.data.msg)
+            if (retrieveNum){
+                setAllPages(Math.ceil(response.data.num/20))
+                setRetrieveNum(false)
+            }
         } else {
             alert(`Error Retrieving List of Users \n${response.data.msg}`)
         }
     }
 
     useEffect(()=>{
-        retrieveList()
-    }, [])
+        let off = (curPage - 1) * 20
+        retrieveList(off)
+    }, [curPage])
 
     const renderList = list.map((item)=>{
         return <Card key={item._id} className='border border-input overflow-hidden hover:scale-105'>
@@ -48,6 +56,38 @@ export default function DisplayAll() {
         </Card>
     })
 
+    const handleCurPageChange = (event) => {
+        setCurPage(Number(event.target.id));
+        window.scroll(0,0)
+    }
+
+    const renderPageBtns = [...Array(allPages)].map((item, index)=>{
+        if (index >= curPage-5 && index < curPage+5){
+            return <button key={`AllPage${index}${Math.random()}`}
+            className={curPage - 1 == index? `bg-muted px-3 py-1`:null} id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
+        }
+        if (index == curPage-6 || index ==curPage+5){
+            return <button key={`AllPage${index}${Math.random()}`}>...</button>
+        }
+        if (index == allPages-1)
+            return <button key={`AllPage${index}${Math.random()}`}
+            className='p-3' id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
+
+        else
+            return null
+    })
+
+    const handleNextPage = ()=>{
+        event.preventDefault()
+        setCurPage((prev) => prev + 1); 
+        window.scroll(0,0)
+    }
+    const handlePrevPage = ()=>{
+        event.preventDefault()
+        setCurPage((prev) => prev - 1); 
+        window.scroll(0,0)
+    }
+
   return (
     <div className='p-5 space-y-5'>
         
@@ -55,8 +95,9 @@ export default function DisplayAll() {
             {renderList}
         </div>
         <div className='row-span-1 flex justify-center items-center border border-input space-x-5'>
-            <button>Prev</button>
-            <button>Next</button>
+            <Button onClick={handlePrevPage} disabled={(curPage-1 <= 0)}>Prev</Button>
+            {renderPageBtns}
+            <Button onClick={handleNextPage} disabled={(curPage+1 > allPages)}>Next</Button>
         </div>
     </div>
   )
