@@ -1,15 +1,14 @@
 import React from 'react'
-import { Button } from './components/ui/button'
 import { ThemeProvider } from './components/theme-provider'
-import { ModeToggle } from './components/mode-toggler'
+import NavBar from './components/NavBar'
+import DisplayAll from './components/DisplayAll'
 
 export default function App() {
   return (
     <ThemeProvider >
-      <div className='mx-5'>
-        <Button>Click Me!</Button>
-        <ModeToggle />
-      </div>
+        <NavBar />
+        <div>Filters</div>
+        <DisplayAll />
     </ThemeProvider>
   )
 }
