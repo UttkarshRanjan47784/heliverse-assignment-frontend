@@ -24,7 +24,6 @@ export default function DisplaySearched() {
     async function retrieveList (off){
         let url = `${x}/api/searchusers/` + slugSearch + `?offset=${off}`
         let response = await axios.get(url);
-        console.log(response.data)
         if (response.data.stat){
             dispatch(setListSearch({
                 newList : response.data.msg

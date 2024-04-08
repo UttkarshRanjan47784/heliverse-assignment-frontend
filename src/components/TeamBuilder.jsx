@@ -23,10 +23,6 @@ export default function TeamBuilder() {
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        console.log(memberList)
-    }, [memberList])
-
     const renderGroup = memberList.map((item)=>{
         return <Accordion type="single" collapsible key={`member-${item.id}-${Math.random()}`}>
                     <AccordionItem value={`member-${item.id}-${Math.random()}`}>
@@ -62,7 +58,6 @@ export default function TeamBuilder() {
             groupDomains : domainList,
             groupIDs : IDList
         }
-        console.log(group)
         let response = await axios.post(`${x}/api/team`, group)
         if (!response.data.stat){
             alert(`Op Failed : ${response.data.msg}`)

@@ -22,7 +22,6 @@ export default function DisplayFiltered() {
     const slugFilter = useSelector(state => state.slugFilter)
 
     async function retrieveList (off){
-        console.log(slugFilter)
         let url = `${x}/api/filterusers?offset=${off}` + slugFilter
         let response = await axios.get(url);
         if (response.data.stat){

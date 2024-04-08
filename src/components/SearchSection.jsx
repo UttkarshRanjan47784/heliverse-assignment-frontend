@@ -33,7 +33,6 @@ export default function SearchSection() {
             return
         }
         let slug = `${qType?`fn`:`ln`}/${backendTrigger[0].toUpperCase() + backendTrigger.substring(1)}`
-        console.log(slug)
         dispatch(setSlugSearch({
             newSlug : slug
         }))

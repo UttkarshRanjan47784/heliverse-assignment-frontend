@@ -29,7 +29,6 @@ export default function DisplayTeamBuilder() {
     async function retrieveList (off){
         let url = `${x}/api/searchusers/` + slugSearch + `?offset=${off}`
         let response = await axios.get(url);
-        console.log(response.data)
         if (response.data.stat){
             dispatch(setListSearch({
                 newList : response.data.msg
@@ -74,7 +73,6 @@ export default function DisplayTeamBuilder() {
     const handleAddTeamMember = (event) => {
         event.preventDefault()
         let arr = event.target.id.split('$')
-        console.log(arr)
         if (groupIDs.includes(arr[0])){
             alert(`Cannot same person twice`);
             return
