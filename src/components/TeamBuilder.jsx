@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { CircleUserRound } from 'lucide-react'
+import axios from 'axios'
+import {useDispatch} from 'react-redux'
 
+import { setNewGroupMemberList, setNewGroupDomainList, setNewGroupIDList } from '@/app/ListSlice'
 import {
     Accordion,
     AccordionContent,
@@ -14,6 +17,10 @@ import { Button } from './ui/button'
 export default function TeamBuilder() {
 
     const memberList = useSelector(state => state.newGroupMemberList)
+    const domainList = useSelector(state => state.newGroupExhaustedDomains)
+    const IDList = useSelector(state => state.newGroupMemberIDList)
+
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         console.log(memberList)
@@ -36,17 +43,46 @@ export default function TeamBuilder() {
                 </Accordion>
     })
 
-    const handleNewGroup = (event) => {
+    const handleNewGroup = async (event) => {
         event.preventDefault()
         if (memberList.length < 2){
-            console.log(`Group must contain atleast 2 people`)
+            alert(`Group must contain atleast 2 people`)
             return
+        }
+        let gname = prompt(`Enter Group Name`)
+        if (gname.length == 0){
+            alert(`Group name cannot be empty`)
+            return
+        }
+        gname = gname[0].toUpperCase() + gname.substring(1);
+        let group = {
+            groupName : gname,
+            groupMembers : memberList,
+            groupDomains : domainList,
+            groupIDs : IDList
+        }
+        console.log(group)
+        let response = await axios.post(`http://localhost:5000/api/team`, group)
+        if (!response.data.stat){
+            alert(`Op Failed : ${response.data.msg}`)
+            return
+        }
+        if (response.data.stat){
+            dispatch(setNewGroupMemberList({
+                newList : []
+            }))
+            dispatch(setNewGroupDomainList({
+                newList : []
+            }))
+            dispatch(setNewGroupIDList({
+                newList : []
+            }))
         }
     }
 
   return (
     <div className='m-5 p-5 border border-input'>
-        <h1>Team</h1>
+        <h1 className='text-center'>Team</h1>
         {renderGroup}
         <div className='flex justify-center items-center mt-5'>
             <Button className='mx-auto' onClick={handleNewGroup}>Add Group</Button>

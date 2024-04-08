@@ -83,7 +83,7 @@ export default function DisplayTeamBuilder() {
             return
         }
         dispatch(addNewGroupMemberID({
-            newID : arr[0]
+            newID : Number(arr[0])
         }))
         dispatch(addNewGroupDomain({
             newDomain : arr[5]

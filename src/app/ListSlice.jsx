@@ -19,7 +19,10 @@ const initialState = {
     newGroupName: ``,
     newGroupMemberList:[],
     newGroupMemberIDList:[],
-    newGroupExhaustedDomains:[]
+    newGroupExhaustedDomains:[],
+
+    viewGroupList : [],
+    numberGroups : 0
 }
 
 export const ListSlice = createSlice({
@@ -89,12 +92,30 @@ export const ListSlice = createSlice({
         addNewGroupMember : (state, action) => {
             state.newGroupMemberList.push(action.payload.newMember)
         },
+        setNewGroupMemberList : (state, action) => {
+            state.newGroupMemberList = action.payload.newList
+        },
+        setNewGroupDomainList : (state, action) => {
+            state.newGroupExhaustedDomains = action.payload.newList
+        },
+        setNewGroupIDList : (state, action) => {
+            state.newGroupMemberIDList = action.payload.newList
+        },
         addNewGroupMemberID : (state, action) => {
             state.newGroupMemberIDList.push(action.payload.newID)
         },
         addNewGroupDomain : (state, action) => {
             state.newGroupExhaustedDomains.push(action.payload.newDomain)
+        },
+
+        setViewGroup : (state, action) => {
+            state.viewGroupList = action.payload.newList
+        },
+        setNumberGroups : (state, action) => {
+            state.numberGroups = action.payload.newNum
         }
+
+
     }
 })
 
@@ -107,6 +128,9 @@ export const { setListHome, setCurrentPageHome, nextCurrentPageHome,
      setListSearch, setCurrentPageSearch, nextCurrentPageSearch, prevCurrentPageSearch,
      setTotalPagesSearch, setSlugSearch,
     
-     setNewGroupName, addNewGroupMember, addNewGroupDomain, addNewGroupMemberID } = ListSlice.actions
+     setNewGroupName, addNewGroupMember, addNewGroupDomain, addNewGroupMemberID,
+     setNewGroupMemberList, setNewGroupDomainList, setNewGroupIDList,
+     
+     setViewGroup, setNumberGroups } = ListSlice.actions
 
 export default ListSlice.reducer

@@ -8,6 +8,7 @@ import FilterPage from './components/pages/FilterPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SearchPage from './components/pages/SearchPage'
 import BuildTeamPage from './components/pages/BuildTeamPage'
+import ViewTeamsPage from './components/pages/ViewTeamsPage'
 
 export default function App() {
   
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/filter' element={<FilterPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/buildteam' element={<BuildTeamPage />} />
+          <Route path='/viewteams' element={<ViewTeamsPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -32,6 +32,9 @@ export default function () {
             }))
             navigate('/buildteam');
             break
+            case 'View Teams' :
+            navigate('/viewteams');
+            break
             default : navigate('/')
         }
     }
@@ -48,6 +51,8 @@ export default function () {
         onClick={handleHeadChange}>Filter</div>
         <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
         onClick={handleHeadChange}>Build Team</div>
+        <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
+        onClick={handleHeadChange}>View Teams</div>
     </div>
     <div className='md:hidden flex items-center h-full'>
         <Sheet>
