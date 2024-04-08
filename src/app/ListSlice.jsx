@@ -14,7 +14,12 @@ const initialState = {
     listSearch : [],
     currentPageSearch : 1,
     totalPagesSearch : 0,
-    slugSearch : ``
+    slugSearch : ``,
+
+    newGroupName: ``,
+    newGroupMemberList:[],
+    newGroupMemberIDList:[],
+    newGroupExhaustedDomains:[]
 }
 
 export const ListSlice = createSlice({
@@ -77,6 +82,19 @@ export const ListSlice = createSlice({
         setSlugSearch : (state, action) => {
             state.slugSearch = action.payload.newSlug
         },
+
+        setNewGroupName : (state, action) => {
+            state.newGroupName = action.payload.newName
+        },
+        addNewGroupMember : (state, action) => {
+            state.newGroupMemberList.push(action.payload.newMember)
+        },
+        addNewGroupMemberID : (state, action) => {
+            state.newGroupMemberIDList.push(action.payload.newID)
+        },
+        addNewGroupDomain : (state, action) => {
+            state.newGroupExhaustedDomains.push(action.payload.newDomain)
+        }
     }
 })
 
@@ -87,5 +105,8 @@ export const { setListHome, setCurrentPageHome, nextCurrentPageHome,
      setTotalPagesFilter, setSlugFilter,
 
      setListSearch, setCurrentPageSearch, nextCurrentPageSearch, prevCurrentPageSearch,
-     setTotalPagesSearch, setSlugSearch } = ListSlice.actions
+     setTotalPagesSearch, setSlugSearch,
+    
+     setNewGroupName, addNewGroupMember, addNewGroupDomain, addNewGroupMemberID } = ListSlice.actions
+
 export default ListSlice.reducer

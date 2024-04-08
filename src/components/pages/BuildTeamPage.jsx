@@ -1,15 +1,14 @@
 import React from 'react'
 import TeamBuilder from '../TeamBuilder'
-import DisplayAll from '../DisplayAll'
 import SearchSection from '../SearchSection'
-import DisplaySearched from '../DisplaySearched'
+import DisplayTeamBuilder from '../DisplayTeamBuilder'
 
 export default function BuildTeamPage() {
   return (
     <div>
         <TeamBuilder />
         <SearchSection />
-        <DisplaySearched />
+        <DisplayTeamBuilder />
     </div>
   )
 }

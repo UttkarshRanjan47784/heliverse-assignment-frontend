@@ -22,8 +22,16 @@ export default function SearchSection() {
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        if (backendTrigger.length == 0)
+        if (backendTrigger.length == 0){
+            let slug = ''
+            dispatch(setSlugSearch({
+                newSlug : slug
+            }))
+            dispatch(setCurrentPageSearch({
+                newPage : 1
+            }))
             return
+        }
         let slug = `${qType?`fn`:`ln`}/${backendTrigger[0].toUpperCase() + backendTrigger.substring(1)}`
         console.log(slug)
         dispatch(setSlugSearch({
