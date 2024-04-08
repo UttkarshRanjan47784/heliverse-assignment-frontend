@@ -1,6 +1,5 @@
 import React from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import { setHeadTitle } from '@/app/ListSlice'
+import { useNavigate } from 'react-router-dom'
 
 import {Menu} from 'lucide-react'
 import { ModeToggle } from './mode-toggler'
@@ -9,13 +8,14 @@ import { Button } from './ui/button'
 
 export default function () {
 
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleHeadChange = (event) => {
         event.preventDefault();
-        dispatch(setHeadTitle({
-            newTitle : event.target.innerText
-        }))
+        if (event.target.innerText == 'Home')
+            navigate('/')
+        else 
+            navigate(`/${event.target.innerText}`)
     }
 
   return (

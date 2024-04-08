@@ -12,7 +12,7 @@ import {
   } from "@/components/ui/card"
 import { Button } from './ui/button';
 
-export default function DisplayAll() {
+export default function DisplayFiltered() {
 
     let list = useSelector(state => state.listHome)
     const dispatch = useDispatch()
@@ -20,8 +20,13 @@ export default function DisplayAll() {
     const allPages = useSelector(state => state.totalPagesHome)
     const retrieveNum = useSelector(state => state.retrieveNumberHome)
 
+    
+    const listF = useSelector(state => state.listFilter)
+    const curPageF = useSelector(state => state.currentPageFilter)
+    const totPageF = useSelector(state => state.totalPagesFilter)
+
     async function retrieveList (off){
-        let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
+        let response = await axios.get(`http://localhost:5000/api/filterusers?offset=${off}`);
         if (response.data.stat){
             dispatch(setListHome({
                 newList : response.data.msg

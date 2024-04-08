@@ -1,54 +1,59 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
-    list : [],
-    currentPage : 1,
-    totalPages : 0,
-    retrieveNumber : true,
-    headTitle : 'Home',
-    filterOn : false,
-    searchOn : false,
-    allOn : true
+    listHome : [],
+    currentPageHome : 1,
+    totalPagesHome : 0,
+    retrieveNumberHome : true,
+    listFilter : [],
+    currentPageFilter : 1,
+    totalPagesFilter : 0,
 }
 
 export const ListSlice = createSlice({
     name : 'list',
     initialState,
     reducers : {
-        setThisList : (state, action) => {
-            state.list = [...action.payload.newList]
+        setListHome : (state, action) => {
+            state.listHome = [...action.payload.newList]
         },
-        setCurrentPage : (state, action) => {
-            state.currentPage = action.payload.newPage
+        setCurrentPageHome : (state, action) => {
+            state.currentPageHome = action.payload.newPage
         },
-        nextCurrentPage : (state, action) => {
-            state.currentPage += 1
+        nextCurrentPageHome : (state, action) => {
+            state.currentPageHome += 1
         },
-        prevCurrentPage : (state, action) => {
-            state.currentPage -= 1
+        prevCurrentPageHome : (state, action) => {
+            state.currentPageHome -= 1
         }, 
-        setTotalPages : (state, action) => {
-            state.totalPages = action.payload.newTotal
+        setTotalPagesHome : (state, action) => {
+            state.totalPagesHome = action.payload.newTotal
         },
-        setRetrieveNumber : (state, action) => {
-            state.retrieveNumber = action.payload.newState
+        setRetrieveNumberHome : (state, action) => {
+            state.retrieveNumberHome = action.payload.newState
         },
-        setHeadTitle : (state, action) => {
-            state.headTitle = action.payload.newTitle
+
+        setListFilter : (state, action) => {
+            state.listFilter = [...action.payload.newList]
         },
-        setFilterOn : (state, action) => {
-            state.filterOn = action.payload.newState
+        setCurrentPageFilter : (state, action) => {
+            state.currentPageFilter = action.payload.newPage
         },
-        setSearchOn : (state, action) => {
-            state.filterOn = action.payload.newState
+        nextCurrentPageFilter : (state, action) => {
+            state.currentPageFilter += 1
         },
-        setAllOn : (state, action) => {
-            state.filterOn = action.payload.newState
-        }
+        prevCurrentPageFilter : (state, action) => {
+            state.currentPageFilter -= 1
+        }, 
+        setTotalPagesFilter : (state, action) => {
+            state.totalPagesFilter = action.payload.newTotal
+        },
     }
 })
 
-export const { setThisList, setCurrentPage, nextCurrentPage,
-     prevCurrentPage, setTotalPages, setRetrieveNumber, setHeadTitle, 
-     setFilterOn, setSearchOn, setAllOn } = ListSlice.actions
+export const { setListHome, setCurrentPageHome, nextCurrentPageHome,
+     prevCurrentPageHome, setTotalPagesHome, setRetrieveNumberHome,
+     
+     setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter,
+     setTotalPagesFilter } = ListSlice.actions
 export default ListSlice.reducer

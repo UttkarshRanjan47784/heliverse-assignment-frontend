@@ -8,8 +8,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import axios from 'axios'
-import { setRetrieveNumber, setThisList, setTotalPages, setFilterOn, setSearchOn, setAllOn } from '@/app/ListSlice'
+// import { setRetrieveNumber, setThisList, setTotalPages } from '@/app/ListSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter,
+    setTotalPagesFilter } from '@/app/ListSlice'
 
 export default function FilterSection() {
 
@@ -18,7 +20,6 @@ export default function FilterSection() {
     const [availableInput, setAvailableInput] = useState(``)
 
     const dispatch = useDispatch()
-    const retrieveNum = useSelector(state => state.retrieveNumber)
 
     const handleDomainChange = (event) => { setDomainInput(event.target.value) }
     const handleGenderChange = (event) => { setGenderInput(event.target.value) }
@@ -32,10 +33,6 @@ export default function FilterSection() {
     }
 
     const handleFilter = async (event) => {
-        dispatch(setFilterOn({ newState : true }))
-        dispatch(setSearchOn({ newState : false }))
-        dispatch(setAllOn({  newState : false }))
-
         let url = `http://localhost:5000/api/filterusers/?offset=0`
         url = domainInput.length > 0 ? url + `&domain=${domainInput[0].toUpperCase() + domainInput.substring(1)}` : url
         url = genderInput.length > 0 ? url + `&gender=${genderInput[0].toUpperCase() + genderInput.substring(1)}` : url
