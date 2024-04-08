@@ -13,6 +13,7 @@ import {
   } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Button } from './ui/button'
+import x from '@/app/helper'
 
 export default function TeamBuilder() {
 
@@ -62,7 +63,7 @@ export default function TeamBuilder() {
             groupIDs : IDList
         }
         console.log(group)
-        let response = await axios.post(`http://localhost:5000/api/team`, group)
+        let response = await axios.post(`${x}/api/team`, group)
         if (!response.data.stat){
             alert(`Op Failed : ${response.data.msg}`)
             return

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
+import x from '@/app/helper';
 
 import { setViewGroup, setNumberGroups } from '@/app/ListSlice'; 
 import {
@@ -18,7 +19,7 @@ export default function ViewTeamsPage() {
     const dispatch = useDispatch()
 
     async function retrieveGroups (){
-        let response = await axios.get(`http://localhost:5000/api/team`);
+        let response = await axios.get(`${x}/api/team`);
         if (response.data.stat){
             dispatch(setViewGroup({
                 newList : response.data.msg

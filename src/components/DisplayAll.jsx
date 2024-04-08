@@ -11,6 +11,7 @@ import {
     CardHeader,
   } from "@/components/ui/card"
 import { Button } from './ui/button';
+import x from '@/app/helper';
 
 export default function DisplayAll() {
 
@@ -21,7 +22,7 @@ export default function DisplayAll() {
     const retrieveNum = useSelector(state => state.retrieveNumberHome)
 
     async function retrieveList (off){
-        let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
+        let response = await axios.get(`${x}/api/users?offset=${off}`);
         if (response.data.stat){
             dispatch(setListHome({
                 newList : response.data.msg

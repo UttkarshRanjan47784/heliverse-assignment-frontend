@@ -11,6 +11,7 @@ import {
     CardHeader,
   } from "@/components/ui/card"
 import { Button } from './ui/button';
+import x from '@/app/helper';
 
 export default function DisplaySearched() {
 
@@ -21,7 +22,7 @@ export default function DisplaySearched() {
     const slugSearch = useSelector(state => state.slugSearch)
 
     async function retrieveList (off){
-        let url = `http://localhost:5000/api/searchusers/` + slugSearch + `?offset=${off}`
+        let url = `${x}/api/searchusers/` + slugSearch + `?offset=${off}`
         let response = await axios.get(url);
         console.log(response.data)
         if (response.data.stat){
@@ -36,7 +37,7 @@ export default function DisplaySearched() {
         }
     }
     async function retrieveListAll (off){
-        let response = await axios.get(`http://localhost:5000/api/users?offset=${off}`);
+        let response = await axios.get(`${x}/api/users?offset=${off}`);
         if (response.data.stat){
             dispatch(setListSearch({
                 newList : response.data.msg

@@ -11,6 +11,7 @@ import {
     CardHeader,
   } from "@/components/ui/card"
 import { Button } from './ui/button';
+import x from '@/app/helper';
 
 export default function DisplayFiltered() {
 
@@ -19,16 +20,10 @@ export default function DisplayFiltered() {
     const curPage = useSelector(state => state.currentPageFilter)
     const allPages = useSelector(state => state.totalPagesFilter)
     const slugFilter = useSelector(state => state.slugFilter)
-    // const retrieveNum = useSelector(state => state.retrieveNumberHome)
-
-    
-    // const listF = useSelector(state => state.listFilter)
-    // const curPageF = useSelector(state => state.currentPageFilter)
-    // const totPageF = useSelector(state => state.totalPagesFilter)
 
     async function retrieveList (off){
         console.log(slugFilter)
-        let url = `http://localhost:5000/api/filterusers?offset=${off}` + slugFilter
+        let url = `${x}/api/filterusers?offset=${off}` + slugFilter
         let response = await axios.get(url);
         if (response.data.stat){
             dispatch(setListFilter({
