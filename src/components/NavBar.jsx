@@ -66,10 +66,16 @@ export default function () {
                 <SheetFooter className='mt-10'>
                 <SheetClose asChild>
                     <div className="mt-10 grid gap-4 py-4">
-                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'>Home</div>
-                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'>Find People</div>
-                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'>Filter</div>
-                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'>Build Team</div>
+                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'
+                        onClick={handleHeadChange}>Home</div>
+                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'
+                        onClick={handleHeadChange}>Find People</div>
+                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'
+                        onClick={handleHeadChange}>Filter</div>
+                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'
+                        onClick={handleHeadChange}>Build Team</div>
+                        <div className='font-medium p-3 h-full md:flex items-center hover:bg-muted'
+                        onClick={handleHeadChange}>View Teams</div>
                         {/* <Button type="submit">Upload</Button> */}
                     </div>
                 </SheetClose>
