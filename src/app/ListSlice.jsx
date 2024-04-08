@@ -5,10 +5,16 @@ const initialState = {
     currentPageHome : 1,
     totalPagesHome : 0,
     retrieveNumberHome : true,
+
     listFilter : [],
     currentPageFilter : 1,
     totalPagesFilter : 0,
-    slugFilter : ``
+    slugFilter : ``,
+
+    listSearch : [],
+    currentPageSearch : 1,
+    totalPagesSearch : 0,
+    slugSearch : ``
 }
 
 export const ListSlice = createSlice({
@@ -52,6 +58,25 @@ export const ListSlice = createSlice({
         setSlugFilter : (state, action) => {
             state.slugFilter = action.payload.newSlug
         },
+
+        setListSearch : (state, action) => {
+            state.listSearch = [...action.payload.newList]
+        },
+        setCurrentPageSearch : (state, action) => {
+            state.currentPageSearch = action.payload.newPage
+        },
+        nextCurrentPageSearch : (state, action) => {
+            state.currentPageSearch += 1
+        },
+        prevCurrentPageSearch : (state, action) => {
+            state.currentPageSearch -= 1
+        }, 
+        setTotalPagesSearch : (state, action) => {
+            state.totalPagesSearch = action.payload.newTotal
+        },
+        setSlugSearch : (state, action) => {
+            state.slugSearch = action.payload.newSlug
+        },
     }
 })
 
@@ -59,5 +84,8 @@ export const { setListHome, setCurrentPageHome, nextCurrentPageHome,
      prevCurrentPageHome, setTotalPagesHome, setRetrieveNumberHome,
 
      setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter,
-     setTotalPagesFilter, setSlugFilter } = ListSlice.actions
+     setTotalPagesFilter, setSlugFilter,
+
+     setListSearch, setCurrentPageSearch, nextCurrentPageSearch, prevCurrentPageSearch,
+     setTotalPagesSearch, setSlugSearch } = ListSlice.actions
 export default ListSlice.reducer
