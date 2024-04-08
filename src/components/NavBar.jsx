@@ -12,23 +12,27 @@ export default function () {
 
     const handleHeadChange = (event) => {
         event.preventDefault();
-        if (event.target.innerText == 'Home')
-            navigate('/')
-        else 
-            navigate(`/${event.target.innerText}`)
+        switch (event.target.innerText){
+            case 'Home' : navigate('/');
+            break;
+            case 'Find People' : navigate('/search');
+            break;
+            case 'Filter' : navigate ('/filter');
+            break;
+        }
     }
 
   return (
     <div className='flex items-center justify-between px-3 border-b border-input h-14'>
     <div className='hidden md:flex items-center h-full'>
         <div className='pacifico-regular mr-3 text-xl h-full flex items-center'>Team Builder</div>
-        <div className='hidden text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
+        <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
         onClick={handleHeadChange}>Home</div>
-        <div className='hidden text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
+        <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
         onClick={handleHeadChange}>Find People</div>
-        <div className='hidden text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
+        <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
         onClick={handleHeadChange}>Filter</div>
-        <div className='hidden text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
+        <div className='hidden cursor-pointer text-xs font-medium px-3 h-full md:flex items-center hover:bg-muted'
         onClick={handleHeadChange}>Teams</div>
     </div>
     <div className='md:hidden flex items-center h-full'>

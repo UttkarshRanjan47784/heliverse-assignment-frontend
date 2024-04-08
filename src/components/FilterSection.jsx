@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import {
@@ -7,11 +7,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import axios from 'axios'
-// import { setRetrieveNumber, setThisList, setTotalPages } from '@/app/ListSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter,
-    setTotalPagesFilter } from '@/app/ListSlice'
+import { useDispatch } from 'react-redux'
+import { setCurrentPageFilter, setSlugFilter } from '@/app/ListSlice'
 
 export default function FilterSection() {
 
@@ -19,43 +16,43 @@ export default function FilterSection() {
     const [genderInput, setGenderInput] = useState(``)
     const [availableInput, setAvailableInput] = useState(``)
 
+    const fieldAva = useRef()
+
     const dispatch = useDispatch()
 
     const handleDomainChange = (event) => { setDomainInput(event.target.value) }
     const handleGenderChange = (event) => { setGenderInput(event.target.value) }
     const handleAvailableChange = (event) => { 
-        if (event.target.innerText == "Available")
-            setAvailableInput(true)
-        if (event.target.innerText == "Clear Filter")
-            setAvailableInput(null)
-        else
-            setAvailableInput(false)
+        if (event.target.innerText == "Available"){
+            
+            fieldAva.current.className='text-center text-muted-foreground rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-10 bg-green-500 text-primary'
+            fieldAva.current.innerText = 'Available'
+            setAvailableInput(`true`)
+        }
+        else if (event.target.innerText == "Clear Filter"){
+            fieldAva.current.className='text-center text-muted-foreground rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-10'
+            fieldAva.current.innerText = 'Availability'
+            setAvailableInput(``)
+        }
+        else{
+            fieldAva.current.className='text-center text-muted-foreground rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-10 bg-red-500 text-primary'
+            
+            fieldAva.current.innerText = 'Unavailable'
+            setAvailableInput(`false`)
+        }
     }
 
     const handleFilter = async (event) => {
-        let url = `http://localhost:5000/api/filterusers/?offset=0`
-        url = domainInput.length > 0 ? url + `&domain=${domainInput[0].toUpperCase() + domainInput.substring(1)}` : url
-        url = genderInput.length > 0 ? url + `&gender=${genderInput[0].toUpperCase() + genderInput.substring(1)}` : url
-        url = availableInput != null ? url + `&available=${availableInput}` : url
-        
-        let response = await axios.get(url)
-        if (response.data.stat){
-            // setList(response.data.msg)
-            dispatch(setThisList({
-                newList : response.data.msg
-            }))
-            if (retrieveNum){
-                dispatch(setTotalPages({
-                    newTotal : Math.ceil(response.data.num/20)
-                }))
-                // setRetrieveNum(false)
-                dispatch(setRetrieveNumber({
-                    newState : false
-                }))
-            }
-        } else {
-            alert(`Error Retrieving List of Users \n${response.data.msg}`)
-        }
+        let slug = ''
+        slug = domainInput.length > 0 ? slug + `&domain=${domainInput[0].toUpperCase() + domainInput.substring(1)}` : slug
+        slug = genderInput.length > 0 ? slug + `&gender=${genderInput[0].toUpperCase() + genderInput.substring(1)}` : slug
+        slug = availableInput.length > 0 ? slug + `&available=${availableInput}` : slug
+        dispatch(setSlugFilter({
+            newSlug : slug
+        }))
+        dispatch(setCurrentPageFilter({
+            newPage : 1
+        }))
     }
 
   return (
@@ -66,7 +63,7 @@ export default function FilterSection() {
         className='text-center' value={genderInput} onChange={handleGenderChange}/>
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <div name='availableInput' placeholder='Availability'
+                <div name='availableInput' placeholder='Availability' ref={fieldAva}
                 className='text-center text-muted-foreground rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-10'>Availability</div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

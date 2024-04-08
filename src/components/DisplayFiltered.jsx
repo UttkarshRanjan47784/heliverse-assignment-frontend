@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setListHome, setCurrentPageHome, nextCurrentPageHome, prevCurrentPageHome, setTotalPagesHome, setRetrieveNumberHome } from '@/app/ListSlice';
+import { setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter, setTotalPagesFilter } from '@/app/ListSlice';
 import axios from 'axios'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {Check, X, CircleUserRound} from 'lucide-react'
@@ -14,31 +14,29 @@ import { Button } from './ui/button';
 
 export default function DisplayFiltered() {
 
-    let list = useSelector(state => state.listHome)
+    let list = useSelector(state => state.listFilter)
     const dispatch = useDispatch()
-    const curPage = useSelector(state => state.currentPageHome)
-    const allPages = useSelector(state => state.totalPagesHome)
-    const retrieveNum = useSelector(state => state.retrieveNumberHome)
+    const curPage = useSelector(state => state.currentPageFilter)
+    const allPages = useSelector(state => state.totalPagesFilter)
+    const slugFilter = useSelector(state => state.slugFilter)
+    // const retrieveNum = useSelector(state => state.retrieveNumberHome)
 
     
-    const listF = useSelector(state => state.listFilter)
-    const curPageF = useSelector(state => state.currentPageFilter)
-    const totPageF = useSelector(state => state.totalPagesFilter)
+    // const listF = useSelector(state => state.listFilter)
+    // const curPageF = useSelector(state => state.currentPageFilter)
+    // const totPageF = useSelector(state => state.totalPagesFilter)
 
     async function retrieveList (off){
-        let response = await axios.get(`http://localhost:5000/api/filterusers?offset=${off}`);
+        console.log(slugFilter)
+        let url = `http://localhost:5000/api/filterusers?offset=${off}` + slugFilter
+        let response = await axios.get(url);
         if (response.data.stat){
-            dispatch(setListHome({
+            dispatch(setListFilter({
                 newList : response.data.msg
             }))
-            if (retrieveNum){
-                dispatch(setTotalPagesHome({
-                    newTotal : Math.ceil(response.data.num/20)
-                }))
-                dispatch(setRetrieveNumberHome({
-                    newState : false
-                }))
-            }
+            dispatch(setTotalPagesFilter({
+                newTotal : Math.ceil(response.data.num/20)
+            }))
         } else {
             alert(`Error Retrieving List of Users \n${response.data.msg}`)
         }
@@ -47,10 +45,10 @@ export default function DisplayFiltered() {
     useEffect(()=>{
         let off = (curPage - 1) * 20
         retrieveList(off)
-    }, [curPage])
+    }, [curPage, slugFilter])
 
     const handleCurPageChange = (event) => {
-        dispatch(setCurrentPageHome({
+        dispatch(setCurrentPageFilter({
             newPage: Number(event.target.id)
         }));
         window.scroll(0,0)
@@ -99,6 +97,9 @@ export default function DisplayFiltered() {
         if (index == 0)
             return <button key={`AllPage${index}${Math.random()}`}
             className='p-3' id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
+        if (index == allPages-1)
+            return <button key={`AllPage${index}${Math.random()}`}
+            className='p-3' id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
         if (index >= curPage-2 && index < curPage+2){
             return <button key={`AllPage${index}${Math.random()}`}
             className={curPage - 1 == index? `bg-muted px-3 py-1`:null} id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
@@ -106,9 +107,6 @@ export default function DisplayFiltered() {
         if (index == curPage-6 || index ==curPage+5){
             return <button key={`AllPage${index}${Math.random()}`}>...</button>
         }
-        if (index == allPages-1)
-            return <button key={`AllPage${index}${Math.random()}`}
-            className='p-3' id={`${index+1}`} onClick={handleCurPageChange}>{index+1}</button>
 
         else
             return null
@@ -116,13 +114,13 @@ export default function DisplayFiltered() {
 
     const handleNextPage = (event)=>{
         event.preventDefault()
-        dispatch(nextCurrentPageHome())
+        dispatch(nextCurrentPageFilter())
         window.scroll(0,0)
     }
     
     const handlePrevPage = (event)=>{
         event.preventDefault()
-        dispatch(prevCurrentPageHome())
+        dispatch(prevCurrentPageFilter())
         window.scroll(0,0)
     }
 

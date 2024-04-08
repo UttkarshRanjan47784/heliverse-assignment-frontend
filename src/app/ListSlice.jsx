@@ -8,6 +8,7 @@ const initialState = {
     listFilter : [],
     currentPageFilter : 1,
     totalPagesFilter : 0,
+    slugFilter : ``
 }
 
 export const ListSlice = createSlice({
@@ -48,12 +49,15 @@ export const ListSlice = createSlice({
         setTotalPagesFilter : (state, action) => {
             state.totalPagesFilter = action.payload.newTotal
         },
+        setSlugFilter : (state, action) => {
+            state.slugFilter = action.payload.newSlug
+        },
     }
 })
 
 export const { setListHome, setCurrentPageHome, nextCurrentPageHome,
      prevCurrentPageHome, setTotalPagesHome, setRetrieveNumberHome,
-     
+
      setListFilter, setCurrentPageFilter, nextCurrentPageFilter, prevCurrentPageFilter,
-     setTotalPagesFilter } = ListSlice.actions
+     setTotalPagesFilter, setSlugFilter } = ListSlice.actions
 export default ListSlice.reducer

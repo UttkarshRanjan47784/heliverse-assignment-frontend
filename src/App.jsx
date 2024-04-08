@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import HomePage from './components/pages/HomePage'
 import FilterPage from './components/pages/FilterPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import SearchPage from './components/pages/SearchPage'
 
 export default function App() {
   
@@ -17,7 +18,8 @@ export default function App() {
           <NavBar />
         <Routes>
           <Route path='/' element={<HomePage />}  />
-          <Route path='/filter' element={<FilterPage />}  />
+          <Route path='/filter' element={<FilterPage />} />
+          <Route path='/search' element={<SearchPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
